@@ -1,5 +1,5 @@
 # bienenstock
-pog champ
+pog
 
 
 git add *
