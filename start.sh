@@ -1,0 +1,1 @@
+py ./src/index.py
