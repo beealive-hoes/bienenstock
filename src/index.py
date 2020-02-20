@@ -1,4 +1,4 @@
-from webutils.server import Server
+from src.webutils.server import Server
 
 
 def main():
