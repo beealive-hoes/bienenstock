@@ -1,9 +1,8 @@
-from src.webutils.server import Server
+import record as record
 
 
 def main():
-  print(Server.ping())
-
+  record.record(5, 2)
 
 if __name__ == '__main__':
   main()

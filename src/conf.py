@@ -2,8 +2,8 @@
 # config.py
 
 server = {
-  'url': 'http://localhost:9010/',
-  'api_url': 'http://localhost:9010/api/'
+  'url': 'https://ddns1.maanex.tk:5041/',
+  'api_url': 'https://ddns1.maanex.tk:5041/api/'
 }
 
 # server = {
