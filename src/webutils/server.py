@@ -8,7 +8,6 @@ HEADER_JSON = { 'content-type': 'application/json' }
 
 class Server(object):
 
-
   @staticmethod
   def ping(BODY = { 'ping': 'pong' }):
     url = conf.api['endpoints']['ping']
@@ -19,3 +18,13 @@ class Server(object):
     url = conf.api['endpoints']['stream']
     files = {'datei': open(filename,'rb')}
     return req.post(url, files=files, verify = False)
+
+  @staticmethod
+  def uploadDataRaw(body):
+    url = conf.api['endpoints']['data']
+    return req.post(url, json.dumps(body), headers=HEADER_JSON, verify = False).json()
+
+  @staticmethod
+  def uploadData(type, value):
+    body = '{ "key": "{}", "value": "{}" }'.format(type, value)
+    return Server.uploadDataRaw(body)

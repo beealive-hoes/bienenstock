@@ -15,6 +15,7 @@ api = {
   'endpoints': {
     'ping': server['api_url'] + 'ping',
     'stream': server['api_url'] + 'stream'
+    'data': server['api_url'] + 'data'
   }
 }
 
