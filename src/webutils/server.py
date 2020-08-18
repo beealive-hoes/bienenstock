@@ -26,5 +26,5 @@ class Server(object):
 
   @staticmethod
   def uploadData(type, value):
-    body = '{ "key": "{}", "value": "{}" }'.format(type, value)
+    body = '{ "type": "{}", "value": "{}" }'.format(type, value)
     return Server.uploadDataRaw(body)

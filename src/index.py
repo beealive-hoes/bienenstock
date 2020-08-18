@@ -1,8 +1,8 @@
-import record as record
+import sensors.camera as camera
 
 
 def main():
-  record.record(5, 2)
+  camera.record(5, 2)
 
 if __name__ == '__main__':
   main()

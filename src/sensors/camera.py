@@ -19,4 +19,3 @@ def record(recordingTime, pieces):
             Server.uploadVideo(directory + "clip%d.mp4" % i)
         except subprocess.CalledProcessError as e:
             print('FAIL:\n cmd:{}\n output:{}'.format(e.cmd, e.output))
-        
