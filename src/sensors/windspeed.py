@@ -1,6 +1,7 @@
 from gpiozero import Button
 import time
 import math
+from webutils.server import Server
 
 wind_count = 0       # Counts how many half-rotations
 radius_cm = 9.0 # Radius of your anemometer
@@ -36,4 +37,4 @@ wind_speed_sensor.when_pressed = spin
 def measure():
         wind_count = 0
         time.sleep(wind_interval)
-        print( calculate_speed(wind_interval), "km/h")
+        Server.uploadData("windspeed",calculate_speed(wind_interval))

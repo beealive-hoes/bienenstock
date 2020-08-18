@@ -2,6 +2,7 @@ import sounddevice as sd
 import scipy.io.wavfile as wav
 import wave
 import struct
+from webutils.server import Server
 
 fs = 44100
 

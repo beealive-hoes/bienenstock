@@ -23,6 +23,7 @@ import time
 from ctypes import c_short
 from ctypes import c_byte
 from ctypes import c_ubyte
+from webutils.server import Server
 
 DEVICE = 0x76 # Default device I2C address
 
@@ -158,7 +159,10 @@ def readBME280All(addr=DEVICE):
 
 def measure():
   data = readBME280All()
-  print(data[0])
-  print(data[1])
-  print(data[2])
+  Server.uploadData("temperature",data[0])
+  Server.uploadData("pressure",data[1])
+  Server.uploadData("humidity",data[2])
 
+#https://www.instructables.com/id/Raspberry-PI-Multiple-I2c-Devices/
+#
+# :thinking:

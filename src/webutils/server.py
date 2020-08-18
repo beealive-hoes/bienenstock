@@ -1,6 +1,7 @@
 import requests as req
 import json
 import conf as conf
+import time
 
 
 HEADER_JSON = { 'content-type': 'application/json' }
@@ -26,5 +27,6 @@ class Server(object):
 
   @staticmethod
   def uploadData(type, value):
-    body = '{ "type": "{}", "value": "{}" }'.format(type, value)
+    body = '{ "type": "{}", "value": "{}", "time": "{}" }'.format(type, value, round(time.time()))
     return Server.uploadDataRaw(body)
+
