@@ -1,13 +1,7 @@
-import sensors.camera as camera
-import sensors.multisensor as multi
-import sensors.rain as rain
-import sensors.mic as mic
-import sensors.windspeed as wind
-import schedule
-import time
+import scheduler
 
 def main():
-  camera.record(5, 2)
+  scheduler.run()
 
 if __name__ == '__main__':
   main()

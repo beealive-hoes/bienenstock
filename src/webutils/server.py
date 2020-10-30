@@ -4,7 +4,7 @@ import conf as conf
 import time
 
 
-HEADER_JSON = { 'content-type': 'application/json' }
+HEADER_JSON = { 'content-type': 'application/json', 'Authorization': 'apidm28MWd902kDMa09UADK19SKD10DAKd29D' }
 
 
 class Server(object):
@@ -15,8 +15,8 @@ class Server(object):
     return req.post(url, json.dumps(BODY), headers=HEADER_JSON, verify = False).json()
 
   @staticmethod
-  def uploadVideo(filename):
-    url = conf.api['endpoints']['stream']
+  def uploadVideo(filename, id):
+    url = conf.api['endpoints']['stream']+ "/" + id
     files = {'datei': open(filename,'rb')}
     return req.post(url, files=files, verify = False)
 
@@ -27,6 +27,6 @@ class Server(object):
 
   @staticmethod
   def uploadData(type, value):
-    body = '{ "type": "{}", "value": "{}", "time": "{}" }'.format(type, value, round(time.time()))
+    body = '{ "{}": "{}", "timestamp": "{}" }'.format(type, value, round(time.time()))
     return Server.uploadDataRaw(body)
 

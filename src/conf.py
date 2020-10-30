@@ -19,3 +19,7 @@ api = {
   }
 }
 
+webhook = {
+  'url': 'https://discordapp.com/api/webhooks/749672891460878337/5JpUHZmXsmnkZ05yh-8P8PzTyPPvNfm2rkEnQw27-OwzdNGly2QlnJvX3Xt1SfehYGqp'
+}
+

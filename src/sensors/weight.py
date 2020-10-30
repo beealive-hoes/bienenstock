@@ -2,6 +2,7 @@ import time
 import sys
 import RPi.GPIO as GPIO
 from hx711 import HX711
+from webutils.server import Server
 
 EMULATE_HX711=False
 
@@ -51,6 +52,7 @@ def measure():
     hx.power_up()
     val = hx.get_weight(5)
     print(val)
+    #Server.uploadData("weight",val)
     hx.power.down()
 
 while True:
