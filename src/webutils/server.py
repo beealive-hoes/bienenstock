@@ -4,7 +4,7 @@ import conf as conf
 import time
 
 
-HEADER_JSON = { 'content-type': 'application/json', 'Authorization': 'apidm28MWd902kDMa09UADK19SKD10DAKd29D' }
+HEADER_JSON = { 'content-type': 'application/json', 'Authorization': conf.auth['key'] }
 
 
 class Server(object):

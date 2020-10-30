@@ -2,5 +2,7 @@
 .vsc/
 .vs/
 .video/
+src/conf.py
+
 
 get-pip.py

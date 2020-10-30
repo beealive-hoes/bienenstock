@@ -30,7 +30,7 @@ def calculate_speed(time_sec):
         return speed * calibration
 
 
-wind_speed_sensor = Button(5)
+wind_speed_sensor = Button(26)
 wind_speed_sensor.when_pressed = spin
 
 # Loop to measure wind speed and report at 5-second intervals

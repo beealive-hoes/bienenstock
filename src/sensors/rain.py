@@ -1,7 +1,7 @@
 from gpiozero import Button
 from webutils.server import Server
 
-rain_sensor = Button(6)
+rain_sensor = Button(16)
 BUCKET_SIZE = 0.2794
 count = 0
 
