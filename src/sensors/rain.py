@@ -18,4 +18,8 @@ rain_sensor.when_pressed = bucket_tipped
 
 def measure():
     global count
-    Server.uploadData("rainfall",(count*BUCKET_SIZE))
+    Server.uploadData("rain",(count*BUCKET_SIZE))
+
+def test():
+    global count
+    print(count*BUCKET_SIZE + "mm/m2)

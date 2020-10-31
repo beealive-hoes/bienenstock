@@ -1,7 +1,5 @@
-import scheduler
-
+import raintest
 def main():
-  scheduler.run()
-
+  raintest.run()
 if __name__ == '__main__':
   main()

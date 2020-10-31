@@ -28,7 +28,7 @@ from webutils.server import Server
 DEVICE = 0x76 # Default device I2C address
 
 
-bus = smbus.SMBus(1) # Rev 2 Pi, Pi 2 & Pi 3 uses bus 1
+bus = smbus.SMBus(4) # Rev 2 Pi, Pi 2 & Pi 3 uses bus 1
                      # Rev 1 Pi uses bus 0
 
 def getShort(data, index):
@@ -159,9 +159,9 @@ def readBME280All(addr=DEVICE):
 
 def measure():
   data = readBME280All()
-  Server.uploadData("temperature",data[0])
-  Server.uploadData("pressure",data[1])
-  Server.uploadData("humidity",data[2])
+  Server.uploadData("temperature2",data[0])
+  Server.uploadData("airpressure2",data[1])
+  Server.uploadData("humidity2",data[2])
 
 #https://www.instructables.com/id/Raspberry-PI-Multiple-I2c-Devices/
 #

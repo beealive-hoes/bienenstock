@@ -37,4 +37,4 @@ wind_speed_sensor.when_pressed = spin
 def measure():
         wind_count = 0
         time.sleep(wind_interval)
-        Server.uploadData("windspeed",calculate_speed(wind_interval))
+        Server.uploadData("wind",calculate_speed(wind_interval))
