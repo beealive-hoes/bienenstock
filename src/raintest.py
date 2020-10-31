@@ -1,7 +1,5 @@
 import schedule
 import sensors.rain as rain
-import sensors.multi1 as multi 1
-import sensors.multi2 as multi 2
 
 
 def run():

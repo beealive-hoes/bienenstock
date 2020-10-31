@@ -22,4 +22,4 @@ def measure():
 
 def test():
     global count
-    print(count*BUCKET_SIZE + "mm/m2)
+    print(count*BUCKET_SIZE + "mm/m2")
