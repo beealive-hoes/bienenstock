@@ -2,5 +2,14 @@
 .vsc/
 .vs/
 .video/
+.idea/
+venv/
+
+src/__pycache__/
+src/webutils/__pycache__/
+*.py[cod]
+*$py.class
 
 get-pip.py
+
+src/conf.py

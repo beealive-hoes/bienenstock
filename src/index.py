@@ -1,8 +1,9 @@
-import record as record
+import src.scheduler
 
 
 def main():
-  record.record(5, 2)
+    scheduler.debug()
+
 
 if __name__ == '__main__':
-  main()
+    main()

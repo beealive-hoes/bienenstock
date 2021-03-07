@@ -1,17 +1,26 @@
-# bienenstock
-pog champ
+# Beealive: Bienenstock
 
+Hier wird bald eine Anleitung stehen lol
 
-git add *
+- [I²C Busses erstellen](https://www.instructables.com/id/Raspberry-PI-Multiple-I2c-Devices/)
+- GPIO Pins aufschreiben
+- Autostart oder Cron
+- conf.py erstellen:
+```python
+server = {
+    'url': 'SERVER URL',
+    'api_url': 'SERVER API URL'
+}
 
-git commit -m "änderungen"
+api = {
+    'endpoints': {
+        'ping': server['api_url'] + 'ping',
+        'stream': server['api_url'] + 'stream',
+        'data': server['api_url'] + 'data'
+    }
+}
 
-git checkout dev
-
-git pull origin dev
-
-git merge alex
-
-git push origin dev
-
-git checkout alex
+auth = {
+    'key': 'AUTHENTICIATION KEY'
+}
+```
