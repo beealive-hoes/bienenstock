@@ -11,5 +11,5 @@ src/webutils/__pycache__/
 *$py.class
 
 get-pip.py
-
+*.wav
 src/conf.py
