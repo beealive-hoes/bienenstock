@@ -1,4 +1,4 @@
-import src.scheduler
+import src.scheduler as scheduler
 
 
 def main():

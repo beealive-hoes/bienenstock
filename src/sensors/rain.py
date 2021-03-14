@@ -1,7 +1,8 @@
 from gpiozero import Button
 import src.webutils.server as Server
+from src.sensors.GPIOPINS import pins
 
-rain_sensor = Button(16)
+rain_sensor = Button(pins['RAIN'])
 BUCKET_SIZE = 0.2794
 count = 0
 

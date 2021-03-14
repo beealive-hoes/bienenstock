@@ -25,11 +25,13 @@ from ctypes import c_short
 from ctypes import c_byte
 from ctypes import c_ubyte
 import src.webutils.server as Server
+from src.sensors.GPIOPINS import pins
 
 DEVICE = 0x76  # Default device I2C address
 
-bus1 = smbus.SMBus(3)  # bus
-bus2 = smbus.SMBus(4)
+busInside1 = smbus.SMBus(pins['BUS_INNEN'])  # bus
+busInside2 = smbus.SMBus(pins['BUS_INNEN2'])
+busOutside = smbus.SMBus(pins['BUS_AUSSEN'])
 
 
 def getShort(data, index):
@@ -165,30 +167,43 @@ def readBME280All(bus, addr=DEVICE):
     return temperature / 100.0, pressure / 100.0, humidity
 
 
-def measureFirst():
-    data = readBME280All(bus1)
+def measureInside1():
+    data = readBME280All(busInside1)
     Server.uploadData("temperature1", data[0])
     Server.uploadData("airpressure1", data[1])
     Server.uploadData("humidity1", data[2])
 
 
-def measureSecond():
-    data = readBME280All(bus2)
-    Server.uploadData("temperature2", data[0])
-    Server.uploadData("airpressure2", data[1])
-    Server.uploadData("humidity2", data[2])
-
-
-def debugFirst():
-    data = readBME280All(bus1)
+def debugInside1():
+    data = readBME280All(busInside1)
     print(f"Temperatur 1: {data[0]}")
     print(f"Air Pressure 1: {data[1]}")
     print(f"Humidity 1: {data[2]}")
 
 
-def debugSecond():
-    data = readBME280All(bus2)
+def measureInside2():
+    data = readBME280All(busInside2)
+    Server.uploadData("temperature3", data[0])
+    Server.uploadData("airpressure3", data[1])
+    Server.uploadData("humidity3", data[2])
+
+
+def debugInside2():
+    data = readBME280All(busInside2)
+    print(f"Temperatur 3: {data[0]}")
+    print(f"Air Pressure 3: {data[1]}")
+    print(f"Humidity 3: {data[2]}")
+
+
+def measureOutside():
+    data = readBME280All(busOutside)
+    Server.uploadData("temperature2", data[0])
+    Server.uploadData("airpressure2", data[1])
+    Server.uploadData("humidity2", data[2])
+
+
+def debugOutside():
+    data = readBME280All(busOutside)
     print(f"Temperatur 2: {data[0]}")
     print(f"Air Pressure 2: {data[1]}")
     print(f"Humidity 2: {data[2]}")
-

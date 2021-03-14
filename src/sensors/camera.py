@@ -1,16 +1,17 @@
 from picamera import PiCamera
 import subprocess
 import src.webutils.server as Server
+
 cam = PiCamera()
 cam.resolution = (1920, 1080)
 cam.framerate = 30
+directory = "../video/"
 
 
 def record(recordingTime, pieces, pauseid):
-    directory = "./video/"
     for filename in cam.record_sequence(directory + 'clip%d.h264' % i for i in range(pieces)):
         cam.wait_recording(recordingTime)
-    
+
     for i in range(pieces):
         command = f"MP4Box -add {directory}clip{i}.h264 {directory}clip{i}.mp4"
         try:
@@ -21,7 +22,6 @@ def record(recordingTime, pieces, pauseid):
 
 
 def debug():
-    directory = "./video/"
     for filename in cam.record_sequence(directory + 'clip%d.h264' % i for i in range(5)):
         cam.wait_recording(5)
 

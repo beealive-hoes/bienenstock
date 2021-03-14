@@ -2,6 +2,7 @@ from gpiozero import Button
 import time
 import math
 import src.webutils.server as Server
+from src.sensors.GPIOPINS import pins
 
 wind_count = 0  # Counts how many half-rotations
 radius_cm = 9.0  # Radius of your anemometer
@@ -31,7 +32,7 @@ def calculate_speed(time_sec):
     return speed * calibration
 
 
-wind_speed_sensor = Button(26)
+wind_speed_sensor = Button(pins['WINDSPEED'])
 wind_speed_sensor.when_pressed = spin
 
 
