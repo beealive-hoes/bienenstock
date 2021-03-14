@@ -1,11 +1,13 @@
 # Beealive: Bienenstock
 
-Hier wird bald eine Anleitung stehen lol
+BeeAlive ist ein Projekt des Rotary Clubs Höchstadt oder so
 
-- [I²C Busses erstellen](https://www.instructables.com/id/Raspberry-PI-Multiple-I2c-Devices/)
-- GPIO Pins aufschreiben
-- Autostart oder Cron
-- conf.py erstellen:
+# Installation
+`git clone https://github.com/beealive-hoes/bienenstock.git` oder `Download ZIP`
+
+`pip install -r requirements.txt`
+
+`src/conf.py` erstellen:
 ```python
 server = {
     'url': 'SERVER URL',
@@ -24,3 +26,7 @@ auth = {
     'key': 'AUTHENTICIATION KEY'
 }
 ```
+
+[I²C Busses erstellen](https://www.instructables.com/id/Raspberry-PI-Multiple-I2c-Devices/) und dann in `src/sensors/GPIOPINS.py` eintragen
+
+Autostart oder Cron (In-Progress xd)

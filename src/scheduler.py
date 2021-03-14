@@ -36,7 +36,7 @@ def debug():
     schedule.every(6).hours.do(run_threaded, weight.debug)
     schedule.every(6).hours.do(run_threaded, multi.debugInside1())
     schedule.every(6).hours.do(run_threaded, multi.debugOutside())
-    schedule.every(6).hours.do(run_threaded, mic.debug)
+    schedule.every(6).hours.do(run_threaded, mic.debugRecord)
     schedule.every().day.at("00:05").do(run_threaded, rain.debug)
     schedule.every().day.at("00:06").do(run_threaded, rain.reset_rainfall)
     schedule.every().day.at("9:15").do(run_threaded, camera.debug, 1, 15, 1)
