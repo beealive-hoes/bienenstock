@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import pickle
 import os
-
+from src.sensors.GPIOPINS import pins
 import RPi.GPIO as GPIO  # import GPIO
 from hx711 import HX711  # import the class HX711
 
@@ -9,7 +9,7 @@ try:
     GPIO.setmode(GPIO.BCM)  # set GPIO pin mode to BCM numbering
     # Create an object hx which represents your real hx711 chip
     # Required input parameters are only 'dout_pin' and 'pd_sck_pin'
-    hx = HX711(dout_pin=5, pd_sck_pin=6)
+    hx = HX711(dout_pin=pins['HX711_DT'], pd_sck_pin=pins['HX711_SCK'])
     # Check if we have swap file. If yes that suggest that the program was not
     # terminated proprly (power failure). We load the latest state.
     swap_file_name = 'swap_file.swp'

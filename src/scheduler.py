@@ -1,9 +1,4 @@
-import src.sensors.camera as camera
-import src.sensors.multi as multi
-import src.sensors.rain as rain
-import src.sensors.mic as mic
-import src.sensors.windspeed as wind
-import src.sensors.weight as weight
+from src.sensors import camera, multi, rain, mic, windspeed as wind, weight
 import schedule
 import time
 import threading
@@ -17,8 +12,8 @@ def run_threaded(job_func):
 def run():
     schedule.every(6).hours.do(run_threaded, wind.measure)
     schedule.every(6).hours.do(run_threaded, weight.measure)
-    schedule.every(6).hours.do(run_threaded, multi.measureFirst)
-    schedule.every(6).hours.do(run_threaded, multi.measureSecond)
+    schedule.every(6).hours.do(run_threaded, multi.measureInside1())
+    schedule.every(6).hours.do(run_threaded, multi.measureOutside())
     schedule.every(6).hours.do(run_threaded, mic.measure)
     schedule.every().day.at("00:05").do(run_threaded, rain.measure)
     schedule.every().day.at("00:06").do(run_threaded, rain.reset_rainfall)
@@ -34,9 +29,9 @@ def run():
 def debug():
     schedule.every(6).hours.do(run_threaded, wind.debug)
     schedule.every(6).hours.do(run_threaded, weight.debug)
-    schedule.every(6).hours.do(run_threaded, multi.debugFirst)
-    schedule.every(6).hours.do(run_threaded, multi.debugSecond)
-    schedule.every(6).hours.do(run_threaded, mic.debug)
+    schedule.every(6).hours.do(run_threaded, multi.debugInside1())
+    schedule.every(6).hours.do(run_threaded, multi.debugOutside())
+    schedule.every(6).hours.do(run_threaded, mic.debugRecord)
     schedule.every().day.at("00:05").do(run_threaded, rain.debug)
     schedule.every().day.at("00:06").do(run_threaded, rain.reset_rainfall)
     schedule.every().day.at("9:15").do(run_threaded, camera.debug, 1, 15, 1)
