@@ -1,31 +1,42 @@
 from gpiozero import Button
 import src.webutils.server as Server
 from src.sensors.GPIOPINS import pins
+import json
 
 rain_sensor = Button(pins['RAIN'])
 BUCKET_SIZE = 0.2794
-count = 0
+try:
+    with open("rain.json") as file:
+        countDict = json.load(file)
+except (json.decoder.JSONDecodeError, FileNotFoundError):
+    countDict = {
+        "count": 0
+    }
 
 
 def bucket_tipped():
-    global count
-    count = count + 1
-    print(count * BUCKET_SIZE)
+    countDict["count"] += 1
+    with open("rain.json", 'w') as jsonFile:
+        json.dump(countDict, jsonFile, indent=1)
 
 
 def reset_rainfall():
-    global count
-    count = 0
+    countDict["count"] = 0
+    with open("rain.json", 'w') as jsonFile:
+        json.dump(countDict, jsonFile, indent=1)
 
 
 rain_sensor.when_pressed = bucket_tipped
 
 
 def measure():
-    global count
-    Server.uploadData("rain", (count * BUCKET_SIZE))
+    Server.uploadData("rain", (countDict["count"] * BUCKET_SIZE))
 
 
 def debug():
-    global count
-    print(str(count * BUCKET_SIZE) + "mm/m2")
+    print(str(countDict["count"] * BUCKET_SIZE), "mm/m2")
+
+
+if __name__ == "__main__":
+    while True:
+        debug()

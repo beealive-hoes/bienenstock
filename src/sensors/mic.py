@@ -29,7 +29,7 @@ def record(seconds, file):
 def measure():
     record(RECORD_TIME, "../audio/measure.wav")
     data = analyze("../audio/measure.wav")
-    Server.uploadData('', data)
+    Server.uploadData('volume', data)
 
 
 def debugRecord():
@@ -46,4 +46,8 @@ def debugLast():
 
 
 if __name__ == "__main__":
-    debugLast()
+    mode = input("new | last: ")
+    if mode == "new":
+        debugRecord()
+    elif mode == "last":
+        debugLast()

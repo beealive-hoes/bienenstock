@@ -6,13 +6,14 @@ import time
 HEADER_JSON = {'content-type': 'application/json', 'Authorization': conf.auth['key']}
 
 
-def ping(BODY={'ping': 'pong'}):
+def ping():
+    body = {'ping': 'pong'}
     url = conf.api['endpoints']['ping']
-    return req.post(url, json.dumps(BODY), headers=HEADER_JSON, verify=False).json()
+    return req.post(url, json.dumps(body), headers=HEADER_JSON, verify=False).json()
 
 
 def uploadVideo(filename, videoId):
-    url = conf.api['endpoints']['stream'] + "/" + videoId
+    url = f"{conf.api['endpoints']['stream']}/{videoId}"
     files = {'datei': open(filename, 'rb')}
     return req.post(url, files=files, verify=False)
 
@@ -23,5 +24,5 @@ def uploadDataRaw(body):
 
 
 def uploadData(dataType, value):
-    body = '{ "{}": "{}", "timestamp": "{}" }'.format(dataType, value, round(time.time()))
+    body = {dataType: value, "timestamp": round(time.time())}
     return uploadDataRaw(body)

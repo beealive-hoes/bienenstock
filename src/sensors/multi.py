@@ -207,3 +207,18 @@ def debugOutside():
     print(f"Temperatur 2: {data[0]}")
     print(f"Air Pressure 2: {data[1]}")
     print(f"Humidity 2: {data[2]}")
+
+
+if __name__ == "__main__":
+    mode = input("Select sensor: ")
+    if mode == "inside1":
+        while True:
+            debugInside1()
+    elif mode == "inside2":
+        while True:
+            debugInside2()
+    elif mode == "outside":
+        while True:
+            debugOutside()
+    else:
+        print("Invalid Input.")

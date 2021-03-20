@@ -32,3 +32,7 @@ def debug():
             print(f"Converted {directory}clip{i}.h264 {directory}clip{i}.mp4")
         except subprocess.CalledProcessError as e:
             print('FAIL:\n cmd:{}\n output:{}'.format(e.cmd, e.output))
+
+
+if __name__ == "__main__":
+    debug()

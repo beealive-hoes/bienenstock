@@ -1,9 +1,4 @@
-import src.sensors.camera as camera
-import src.sensors.multi as multi
-import src.sensors.rain as rain
-import src.sensors.mic as mic
-import src.sensors.windspeed as wind
-import src.sensors.weight as weight
+from src.sensors import camera, multi, rain, mic, windspeed as wind, weight
 import schedule
 import time
 import threading
