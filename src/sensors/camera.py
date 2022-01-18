@@ -1,38 +1,56 @@
 from picamera import PiCamera
 import subprocess
 import src.webutils.server as Server
+from src.sensors import DEBUG
+from sys import argv
 
-cam = PiCamera()
-cam.resolution = (1920, 1080)
-cam.framerate = 30
 directory = "../video/"
 
 
-def record(recordingTime, pieces, pauseid):
-    for filename in cam.record_sequence(directory + 'clip%d.h264' % i for i in range(pieces)):
-        cam.wait_recording(recordingTime)
+def record(recording_time, pieces, pause_id):
+    record_and_convert(recording_time, pieces)
+    upload(pieces, pause_id)
 
+
+def record_and_convert(recording_time, pieces):
+    with PiCamera(resolution=(1920, 1080), framerate=30) as cam:
+        for i in range(pieces):
+            file_name = f'{directory}clip{i}.h264'
+            print("Start Recording", file_name)
+            cam.start_recording(file_name)
+            cam.wait_recording(recording_time)
+            cam.stop_recording()
+            command = f"MP4Box -add {directory}clip{i}.h264 {directory}clip{i}.mp4"
+            print(f"Converted {directory}clip{i}.h264 {directory}clip{i}.mp4")
+            try:
+                output = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
+            except subprocess.CalledProcessError as e:
+                print(f'FAIL:\n cmd:{e.cmd}\n output:{e.output}')
+
+
+def upload(pieces, pause_id):
     for i in range(pieces):
-        command = f"MP4Box -add {directory}clip{i}.h264 {directory}clip{i}.mp4"
-        try:
-            output = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
-            Server.uploadVideo(f"{directory}clip{i}.mp4", f"{pauseid}-{i}")
-        except subprocess.CalledProcessError as e:
-            print('FAIL:\n cmd:{}\n output:{}'.format(e.cmd, e.output))
+        Server.upload_video(f"{directory}clip{i}.mp4", f"{pause_id}-{i}")
 
 
 def debug():
-    for filename in cam.record_sequence(directory + 'clip%d.h264' % i for i in range(5)):
-        cam.wait_recording(5)
+    record_and_convert(10, 3)
 
-    for i in range(5):
-        command = f"MP4Box -add {directory}clip{i}.h264 {directory}clip{i}.mp4"
-        try:
-            output = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
-            print(f"Converted {directory}clip{i}.h264 {directory}clip{i}.mp4")
-        except subprocess.CalledProcessError as e:
-            print('FAIL:\n cmd:{}\n output:{}'.format(e.cmd, e.output))
+
+def main():
+    if DEBUG:
+        debug()
+    else:
+        pause_id = argv[1]
+        if pause_id == 1:
+            record(60, 15, 1)
+        elif pause_id == 2:
+            record(60, 15, 2)
+        elif pause_id == 3:
+            record(60, 45, 2)
+        else:
+            print("Wrong pause_id.")
 
 
 if __name__ == "__main__":
-    debug()
+    main()

@@ -17,7 +17,7 @@ hx.set_scale_ratio(ratio)
 
 def measure():
     value = hx.get_weight_mean()
-    Server.uploadData("weight", value)
+    Server.upload_data("weight", value)
 
 
 def debug():

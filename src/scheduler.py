@@ -12,14 +12,14 @@ def run_threaded(job_func):
 def run():
     schedule.every(6).hours.do(run_threaded, wind.measure)
     schedule.every(6).hours.do(run_threaded, weight.measure)
-    schedule.every(6).hours.do(run_threaded, multi.measureInside1())
-    schedule.every(6).hours.do(run_threaded, multi.measureOutside())
+    schedule.every(6).hours.do(run_threaded, multi.measure_inside_1)
+    schedule.every(6).hours.do(run_threaded, multi.measure_outside)
     schedule.every(6).hours.do(run_threaded, mic.measure)
     schedule.every().day.at("00:05").do(run_threaded, rain.measure)
     schedule.every().day.at("00:06").do(run_threaded, rain.reset_rainfall)
-    schedule.every().day.at("9:15").do(run_threaded, camera.record, 1, 15, 1)
-    schedule.every().day.at("11:00").do(run_threaded, camera.record, 1, 15, 2)
-    schedule.every().day.at("12:15").do(run_threaded, camera.record, 1, 45, 3)
+    schedule.every().day.at("9:15").do(run_threaded, camera.record, 60, 15, 1)
+    schedule.every().day.at("11:00").do(run_threaded, camera.record, 60, 15, 2)
+    schedule.every().day.at("12:15").do(run_threaded, camera.record, 60, 45, 3)
 
     while True:
         schedule.run_pending()
@@ -29,14 +29,14 @@ def run():
 def debug():
     schedule.every(6).hours.do(run_threaded, wind.debug)
     schedule.every(6).hours.do(run_threaded, weight.debug)
-    schedule.every(6).hours.do(run_threaded, multi.debugInside1())
-    schedule.every(6).hours.do(run_threaded, multi.debugOutside())
-    schedule.every(6).hours.do(run_threaded, mic.debugRecord)
+    schedule.every(6).hours.do(run_threaded, multi.debug_inside_1)
+    schedule.every(6).hours.do(run_threaded, multi.debug_outside)
+    schedule.every(6).hours.do(run_threaded, mic.debug_record)
     schedule.every().day.at("00:05").do(run_threaded, rain.debug)
     schedule.every().day.at("00:06").do(run_threaded, rain.reset_rainfall)
-    schedule.every().day.at("9:15").do(run_threaded, camera.debug, 1, 15, 1)
-    schedule.every().day.at("11:00").do(run_threaded, camera.debug, 1, 15, 2)
-    schedule.every().day.at("12:15").do(run_threaded, camera.debug, 1, 45, 3)
+    schedule.every().day.at("9:15").do(run_threaded, camera.debug)
+    schedule.every().day.at("11:00").do(run_threaded, camera.debug)
+    schedule.every().day.at("12:15").do(run_threaded, camera.debug)
 
     while True:
         schedule.run_pending()

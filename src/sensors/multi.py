@@ -26,12 +26,14 @@ from ctypes import c_byte
 from ctypes import c_ubyte
 import src.webutils.server as Server
 from src.sensors.GPIOPINS import pins
+from src.sensors import DEBUG
+from sys import argv
 
 DEVICE = 0x76  # Default device I2C address
 
-busInside1 = smbus.SMBus(pins['BUS_INNEN'])  # bus
-busInside2 = smbus.SMBus(pins['BUS_INNEN2'])
-busOutside = smbus.SMBus(pins['BUS_AUSSEN'])
+bus_inside_1 = smbus.SMBus(pins['MULTIBUS_INNEN'])
+bus_inside_2 = smbus.SMBus(pins['MULTIBUS_INNEN2'])
+bus_outside = smbus.SMBus(pins['MULTIBUS_AUSSEN'])
 
 
 def getShort(data, index):
@@ -133,8 +135,8 @@ def readBME280All(bus, addr=DEVICE):
     hum_raw = (data[6] << 8) | data[7]
 
     # Refine temperature
-    var1 = ((temp_raw >> 3 - dig_T1 << 1) * dig_T2) >> 11
-    var2 = (((((temp_raw >> 4) - dig_T1) * ((temp_raw >> 4) - dig_T1)) >> 12) * dig_T3) >> 14
+    var1 = ((((temp_raw >> 3) - (dig_T1 << 1))) * dig_T2) >> 11
+    var2 = (((((temp_raw >> 4) - (dig_T1)) * ((temp_raw >> 4) - (dig_T1))) >> 12) * (dig_T3)) >> 14
     t_fine = var1 + var2
     temperature = float(((t_fine * 5) + 128) >> 8)
 
@@ -156,8 +158,7 @@ def readBME280All(bus, addr=DEVICE):
 
     # Refine humidity
     humidity = t_fine - 76800.0
-    humidity = (hum_raw - (dig_H4 * 64.0 + dig_H5 / 16384.0 * humidity)) * (
-            dig_H2 / 65536.0 * (1.0 + dig_H6 / 67108864.0 * humidity * (1.0 + dig_H3 / 67108864.0 * humidity)))
+    humidity = (hum_raw - (dig_H4 * 64.0 + dig_H5 / 16384.0 * humidity)) * (dig_H2 / 65536.0 * (1.0 + dig_H6 / 67108864.0 * humidity * (1.0 + dig_H3 / 67108864.0 * humidity)))
     humidity = humidity * (1.0 - dig_H1 * humidity / 524288.0)
     if humidity > 100:
         humidity = 100
@@ -167,58 +168,78 @@ def readBME280All(bus, addr=DEVICE):
     return temperature / 100.0, pressure / 100.0, humidity
 
 
-def measureInside1():
-    data = readBME280All(busInside1)
-    Server.uploadData("temperature1", data[0])
-    Server.uploadData("airpressure1", data[1])
-    Server.uploadData("humidity1", data[2])
+def measure_inside_1():
+    temp, air, hum = readBME280All(bus_inside_1)
+    Server.upload_data("temperature1", temp)
+    Server.upload_data("airpressure1", air)
+    Server.upload_data("humidity1", hum)
 
 
-def debugInside1():
-    data = readBME280All(busInside1)
-    print(f"Temperatur 1: {data[0]}")
-    print(f"Air Pressure 1: {data[1]}")
-    print(f"Humidity 1: {data[2]}")
+def debug_inside_1():
+    chip_id, chip_version = readBME280ID(bus_inside_1)
+    print("Chip ID     :", chip_id)
+    print("Version     :", chip_version)
+    temp, air, hum = readBME280All(bus_inside_1)
+    print(f"Temperature 1   : {temp} C")
+    print(f"Air Pressure 1  : {air} hPa")
+    print(f"Humidity 1      : {hum} %")
 
 
-def measureInside2():
-    data = readBME280All(busInside2)
-    Server.uploadData("temperature3", data[0])
-    Server.uploadData("airpressure3", data[1])
-    Server.uploadData("humidity3", data[2])
+def measure_inside_2():
+    temp, air, hum = readBME280All(bus_inside_2)
+    Server.upload_data("temperature3", temp)
+    Server.upload_data("airpressure3", air)
+    Server.upload_data("humidity3", hum)
 
 
-def debugInside2():
-    data = readBME280All(busInside2)
-    print(f"Temperatur 3: {data[0]}")
-    print(f"Air Pressure 3: {data[1]}")
-    print(f"Humidity 3: {data[2]}")
+def debug_inside_2():
+    chip_id, chip_version = readBME280ID(bus_inside_2)
+    print("Chip ID     :", chip_id)
+    print("Version     :", chip_version)
+    temp, air, hum = readBME280All(bus_inside_2)
+    print(f"Temperature 3   : {temp} C")
+    print(f"Air Pressure 3  : {air} hPa")
+    print(f"Humidity 3      : {hum} %")
 
 
-def measureOutside():
-    data = readBME280All(busOutside)
-    Server.uploadData("temperature2", data[0])
-    Server.uploadData("airpressure2", data[1])
-    Server.uploadData("humidity2", data[2])
+def measure_outside():
+    temp, air, hum = readBME280All(bus_outside)
+    Server.upload_data("temperature2", temp)
+    Server.upload_data("airpressure2", air)
+    Server.upload_data("humidity2", hum)
 
 
-def debugOutside():
-    data = readBME280All(busOutside)
-    print(f"Temperatur 2: {data[0]}")
-    print(f"Air Pressure 2: {data[1]}")
-    print(f"Humidity 2: {data[2]}")
+def debug_outside():
+    chip_id, chip_version = readBME280ID(bus_outside)
+    print("Chip ID     :", chip_id)
+    print("Version     :", chip_version)
+    temp, air, hum = readBME280All(bus_outside)
+    print(f"Temperature 2   : {temp} C")
+    print(f"Air Pressure 2  : {air} hPa")
+    print(f"Humidity 2      : {hum} %")
+
+
+def main():
+    mode = argv[1]
+    if mode == "inside1":
+        if DEBUG:
+            debug_inside_1()
+        else:
+            measure_inside_1()
+    elif mode == "inside2":
+        if DEBUG:
+            debug_inside_2()
+        else:
+            measure_inside_2()
+    elif mode == "outside":
+        if DEBUG:
+            debug_outside()
+        else:
+            measure_outside()
+    else:
+        print("Invalid mode.")
 
 
 if __name__ == "__main__":
-    mode = input("Select sensor: ")
-    if mode == "inside1":
-        while True:
-            debugInside1()
-    elif mode == "inside2":
-        while True:
-            debugInside2()
-    elif mode == "outside":
-        while True:
-            debugOutside()
-    else:
-        print("Invalid Input.")
+    main()
+

@@ -3,6 +3,7 @@ import time
 import math
 import src.webutils.server as Server
 from src.sensors.GPIOPINS import pins
+from src.sensors import DEBUG
 
 radius_cm = 9.0  # Radius of your anemometer
 wind_interval = 5  # How often (secs) to report speed
@@ -22,27 +23,33 @@ def calculate_speed(time_sec, wind_count):
     return speed * calibration
 
 
-def justMeasure():
+def just_measure():
     wind_speed_sensor = Button(pins['WINDSPEED'])
     wind_count = 0
-    stopTime = time.time()+5
-    while time.time() < stopTime:
+    stop_time = time.time()+5
+    while time.time() < stop_time:
         if wind_speed_sensor.is_pressed:
+            # TODO test if works
             wind_count += 1
     return wind_count
 
 
-# Loop to measure wind speed and report at 5-second intervals
 def measure():
-    wind_count = justMeasure()
-    Server.uploadData("wind", calculate_speed(wind_interval, wind_count))
+    wind_count = just_measure()
+    Server.upload_data("wind", calculate_speed(wind_interval, wind_count))
 
 
 def debug():
-    wind_count = justMeasure()
+    wind_count = just_measure()
     print("wind", calculate_speed(wind_interval, wind_count))
 
 
-if __name__ == "__main__":
-    while True:
+def main():
+    if DEBUG:
         debug()
+    else:
+        measure()
+
+
+if __name__ == "__main__":
+    main()

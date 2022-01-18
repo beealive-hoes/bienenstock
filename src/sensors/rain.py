@@ -1,42 +1,48 @@
 from gpiozero import Button
 import src.webutils.server as Server
 from src.sensors.GPIOPINS import pins
-import json
+from src.sensors import DEBUG
+import pickle
 
 rain_sensor = Button(pins['RAIN'])
 BUCKET_SIZE = 0.2794
 try:
-    with open("rain.json") as file:
-        countDict = json.load(file)
-except (json.decoder.JSONDecodeError, FileNotFoundError):
-    countDict = {
+    with open("rain.pickle", 'rb') as file:
+        count_dict = pickle.load(file)
+except (pickle.UnpicklingError, FileNotFoundError):
+    count_dict = {
         "count": 0
     }
 
 
 def bucket_tipped():
-    countDict["count"] += 1
-    with open("rain.json", 'w') as jsonFile:
-        json.dump(countDict, jsonFile, indent=1)
+    count_dict["count"] += 1
+    with open("rain.pickle", 'wb') as pickleFile:
+        pickle.dump(count_dict, pickleFile)
 
 
 def reset_rainfall():
-    countDict["count"] = 0
-    with open("rain.json", 'w') as jsonFile:
-        json.dump(countDict, jsonFile, indent=1)
-
-
-rain_sensor.when_pressed = bucket_tipped
+    count_dict["count"] = 0
+    with open("rain.pickle", 'wb') as pickleFile:
+        pickle.dump(count_dict, pickleFile)
 
 
 def measure():
-    Server.uploadData("rain", (countDict["count"] * BUCKET_SIZE))
+    Server.upload_data("rain", (count_dict["count"] * BUCKET_SIZE))
 
 
 def debug():
-    print(str(countDict["count"] * BUCKET_SIZE), "mm/m2")
+    print(str(count_dict["count"] * BUCKET_SIZE), "mm/m2")
+
+
+def main():
+    while True:
+        rain_sensor.wait_for_press()
+        bucket_tipped()
+        if DEBUG:
+            debug()
 
 
 if __name__ == "__main__":
-    while True:
-        debug()
+    main()
+    # TODO reset rainfall zum funktionieren bringen

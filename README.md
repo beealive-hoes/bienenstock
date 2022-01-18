@@ -3,11 +3,12 @@
 BeeAlive ist ein Projekt des Rotary Clubs Höchstadt oder so
 
 # Installation
-`git clone https://github.com/beealive-hoes/bienenstock.git` oder `Download ZIP`
+1. Projekt klonen oder runterladen und benötigte Packages installieren:
 
-`pip install -r requirements.txt`
+        $ git clone https://github.com/beealive-hoes/bienenstock.git
+        $ pip install -r requirements.txt
 
-`src/conf.py` erstellen:
+2. Die benötigte `src/conf.py` erstellen:
 ```python
 server = {
     'url': 'SERVER URL',
@@ -27,6 +28,16 @@ auth = {
 }
 ```
 
-[I²C Busses erstellen](https://www.instructables.com/id/Raspberry-PI-Multiple-I2c-Devices/) und dann in `src/sensors/GPIOPINS.py` eintragen
+3. [I²C Busses erstellen](https://www.instructables.com/id/Raspberry-PI-Multiple-I2c-Devices/) und dann in `src/sensors/GPIOPINS.py` eintragen
 
-Autostart oder Cron (In-Progress xd)
+Problem: Zusätzliche I²C Busses brauchen Widerstände
+
+# Ausführen
+Autostart und Cron
+
+### TODO:
+- Cron Anleitung
+- rain.py muss noch so verändert werden, dass man resetten kann
+- scheduler.py wird nicht mehr gebraucht durch cron
+- weight.py muss richtig implementiert werden, da funktioniert noch garnichts
+- Eigentlich alle Module testen
