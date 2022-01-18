@@ -11,5 +11,6 @@ src/webutils/__pycache__/
 *$py.class
 
 get-pip.py
+*.pickle
 *.wav
 src/conf.py

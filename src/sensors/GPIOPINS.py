@@ -5,7 +5,7 @@ pins = {
     'HX711_SCK': 6,
     'MULTIBUS_INNEN': 3,
     'MULTIBUS_INNEN2': 4,
-    'MULTIBUS3_AUßEN': 1
+    'MULTIBUS_AUSSEN': 1
 }
 # BUS3: (DON'T USE BUS2)
 #   SDA : 14
@@ -16,8 +16,8 @@ pins = {
 #   SCL : 24
 #
 # BUS1: STANDARD I²C BUS
-#   SDA : 17 / 2
-#   SCL : 24 / 3
+#   SDA : 2
+#   SCL : 3
 #
 #   YOU NEED TO CREATE THE BUSSES (see https://www.instructables.com/Raspberry-PI-Multiple-I2c-Devices/)
 #

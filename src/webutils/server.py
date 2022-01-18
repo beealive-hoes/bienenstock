@@ -12,17 +12,17 @@ def ping():
     return req.post(url, json.dumps(body), headers=HEADER_JSON, verify=False).json()
 
 
-def uploadVideo(filename, videoId):
-    url = f"{conf.api['endpoints']['stream']}/{videoId}"
+def upload_video(filename, video_id):
+    url = f"{conf.api['endpoints']['stream']}/{video_id}"
     files = {'datei': open(filename, 'rb')}
     return req.post(url, files=files, verify=False)
 
 
-def uploadDataRaw(body):
+def upload_data_raw(body):
     url = conf.api['endpoints']['data']
     return req.post(url, json.dumps(body), headers=HEADER_JSON, verify=False).json()
 
 
-def uploadData(dataType, value):
-    body = {dataType: value, "timestamp": round(time.time())}
-    return uploadDataRaw(body)
+def upload_data(data_type, value):
+    body = {data_type: value, "timestamp": round(time.time())}
+    return upload_data_raw(body)

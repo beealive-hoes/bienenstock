@@ -4,6 +4,7 @@ from scipy.io.wavfile import read
 import math
 import statistics
 import src.webutils.server as Server
+from src.sensors import DEBUG
 
 SAMPLERATE = 44100  # frames per second
 RECORD_TIME = 5  # seconds
@@ -15,8 +16,8 @@ RECORD_TIME = 5  # seconds
 
 
 def analyze(file):
-    samprate, wavdata = read(file)
-    db = 20 * math.log10(math.sqrt(statistics.mean(wavdata ** 2)))
+    _, wav_data = read(file)
+    db = 20 * math.log10(math.sqrt(statistics.mean(wav_data ** 2)))
     return db
 
 
@@ -29,25 +30,33 @@ def record(seconds, file):
 def measure():
     record(RECORD_TIME, "../audio/measure.wav")
     data = analyze("../audio/measure.wav")
-    Server.uploadData('volume', data)
+    Server.upload_data('volume', data)
 
 
-def debugRecord():
+def debug_record():
     for i in range(5):
         record(RECORD_TIME, f"../audio/test{i}.wav")
         data = analyze(f"../audio/test{i}.wav")
         print(f"{i}.File: {data}")
 
 
-def debugLast():
+def debug_last():
     for i in range(5):
         data = analyze(f"../audio/test{i}.wav")
         print(f"{i}.File: {data}")
 
 
+def main():
+    if DEBUG:
+        mode = input("new | last: ")
+        if mode == "new":
+            debug_record()
+        elif mode == "last":
+            debug_last()
+    else:
+        measure()
+
+
 if __name__ == "__main__":
-    mode = input("new | last: ")
-    if mode == "new":
-        debugRecord()
-    elif mode == "last":
-        debugLast()
+    main()
+
